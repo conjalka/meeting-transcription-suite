@@ -1,0 +1,25 @@
+# Media and generated output
+recordings/
+transcripts/
+logs/
+*.mp3
+*.mkv
+*.mp4
+*.wav
+*.log
+
+# Secrets and local settings
+.env
+*.env
+!.env.example
+config/suite.settings.local.psd1
+*.local.*
+tokens.json
+
+# Backups made by install.ps1
+*.bak
+
+# OS and editor noise
+Thumbs.db
+.DS_Store
+.vscode/

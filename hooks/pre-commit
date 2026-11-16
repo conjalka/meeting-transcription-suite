@@ -1,0 +1,32 @@
+#!/bin/sh
+# Pre-commit secrets check. Scans staged content for personal paths, IBM markers,
+# token-like strings, and any literal values listed in .git/secret-patterns.txt
+# (a local-only file, one extended regex per line, never committed).
+
+generic='JDHill|OneDrive - IBM|bob-manager-workspace|hf_[A-Za-z0-9]{20,}|gho_[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,}|[Bb]earer [0-9a-f]{32}|(Token|Password)[[:space:]]*=[[:space:]]*"[0-9A-Za-z]{16,}"'
+
+fail=0
+files=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$files" ] && exit 0
+
+for f in $files; do
+  [ "$f" = "hooks/pre-commit" ] && continue
+  content=$(git show ":$f")
+  if printf '%s' "$content" | grep -Eq "$generic"; then
+    echo "BLOCKED: $f matches a generic secret/personal pattern:"
+    printf '%s' "$content" | grep -En "$generic" | head -5
+    fail=1
+  fi
+  if [ -f "$(git rev-parse --git-dir)/secret-patterns.txt" ]; then
+    if printf '%s' "$content" | grep -Eqf "$(git rev-parse --git-dir)/secret-patterns.txt"; then
+      echo "BLOCKED: $f matches a local secret pattern (.git/secret-patterns.txt)"
+      fail=1
+    fi
+  fi
+done
+
+if [ "$fail" -ne 0 ]; then
+  echo "Commit aborted. Remove the matches above (or use --no-verify only if you are certain)."
+  exit 1
+fi
+exit 0
