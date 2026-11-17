@@ -101,6 +101,12 @@ git config core.hooksPath hooks
 - [docs/troubleshooting.md](docs/troubleshooting.md): symptoms, causes and fixes.
 - [docs/handoff.md](docs/handoff.md): the original engineering notes and fix history.
 
+## Support
+
+Provided as-is, with no warranty and no support commitment. It was built for one Windows setup and shared in case it helps someone else. Issues and pull requests may go unanswered.
+
 ## License
 
 [MIT](LICENSE) (c) Jonathan Hill
+
+This repository contains glue scripts and configuration only. TranscriptionSuite, OBS Studio, Docker, Whisper and PyAnnote are separate projects with their own licenses and terms.
