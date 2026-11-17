@@ -1,0 +1,111 @@
+﻿# ============================================================================
+# TranscriptionSuite - Custom User Config
+# Reference setup: Windows laptop, 32 GB RAM, CPU-only (no discrete GPU)
+# Optimized for: post-meeting English transcription, high accuracy, CPU mode
+# ============================================================================
+
+longform_recording:
+    language: "en"
+    translation_enabled: false
+    translation_target_language: "en"
+    auto_add_to_audio_notebook: false
+
+static_transcription:
+    max_segment_chars: 500
+    silero_vad_preprocessing: true
+    silero_vad_sensitivity: 0.5
+
+main_transcriber:
+    model: "Systran/faster-whisper-large-v3"
+    compute_type: "int8"
+    device: "cpu"
+    gpu_device_index: 0
+    batch_size: 8
+    beam_size: 5
+    initial_prompt: "This is a business meeting transcript. Technical terminology, product names, and acronyms may be used."
+    faster_whisper_vad_filter: true
+    whisper_decode:
+        no_speech_threshold: 0.6
+        compression_ratio_threshold: 2.4
+        condition_on_previous_text: true
+        repetition_penalty: 1.1
+    no_log_file: true
+
+live_transcriber:
+    enabled: false
+    live_language: "en"
+    translation_enabled: false
+    translation_target_language: "en"
+    model: "Systran/faster-whisper-medium"
+    compute_type: "int8"
+    device: "cpu"
+    gpu_device_index: 0
+    batch_size: 8
+    beam_size: 5
+    silero_sensitivity: 0.4
+    silero_use_onnx: false
+    post_speech_silence_duration: 3.0
+    min_length_of_recording: 1.0
+    early_transcription_on_silence: 0.5
+    no_log_file: true
+
+diarization:
+    model: "pyannote/speaker-diarization-3.1"
+    hf_token: null
+    device: "auto"
+    min_speakers: null
+    max_speakers: null
+    min_duration_on: 0.0
+    min_duration_off: 0.0
+    merge_gap_threshold: 0.5
+    embedding_batch_size: 32
+    parallel: false
+
+storage:
+    audio_dir: "/data/audio"
+    database_dir: "/data/database"
+    audio_format: "mp3"
+    audio_bitrate: 160
+
+audio_processing:
+    backend: "ffmpeg"
+    resampler: "soxr"
+    normalization_method: "dynaudnorm"
+
+remote_server:
+    enabled: true
+    host: "127.0.0.1"
+    token_store: "/data/tokens/tokens.json"
+    tls:
+        enabled: false
+
+local_llm:
+    enabled: false
+    base_url: "http://127.0.0.1:1234"
+    api_key: ""
+
+logging:
+    level: "INFO"
+    console_output: true
+    file_name: "server.log"
+    directory: "/data/logs"
+    max_size_mb: 10
+    backup_count: 5
+
+durability:
+    recordings_dir: "/data/recordings"
+    audio_retention_days: 30
+    cleanup_enabled: true
+    cleanup_interval_hours: 24
+    orphan_job_timeout_minutes: 10
+    orphan_sweep_interval_minutes: 30
+
+processing:
+    temp_dir: "/tmp/transcriptionsuite"
+    keep_temp_files: false
+    sample_rate: 16000
+
+webhook:
+    enabled: false
+    url: ""
+    secret: ""
