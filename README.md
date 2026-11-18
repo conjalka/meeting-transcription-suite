@@ -88,7 +88,7 @@ git config core.hooksPath hooks
 
 ## Network exposure
 
-In its default plain-HTTP mode, TranscriptionSuite did not check tokens on the machine this was built on: every API call, including the recordings list and exports, answered without one. Docker also publishes port 9786 on all network interfaces, so other devices on the same network could reach it. Before using this on a shared or public network, restrict port 9786 to this PC (for example with a Windows Firewall rule that blocks inbound connections to it) or enable TLS in TranscriptionSuite, which makes it require the token.
+In its default plain-HTTP mode, TranscriptionSuite did not check tokens on the machine this was built on: every API call, including the recordings list and exports, answered without one. Docker also publishes port 9786 on all network interfaces, so other devices on the same network may be able to reach it. Before using this on a shared or public network, restrict port 9786 to this PC (for example with a Windows Firewall rule that blocks inbound connections to it) or enable TLS in TranscriptionSuite, which makes it require the token.
 
 ## Limitations
 
