@@ -41,7 +41,7 @@ Detection signal: Windows records which apps hold the microphone under `HKCU\...
 
 - Windows 11 with Windows PowerShell 5.1 (the version that ships with Windows). Developed and tested on Windows 11 Enterprise only.
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) with WSL2.
-- [TranscriptionSuite](https://github.com/homelab-00/TranscriptionSuite) desktop app. Developed against **v1.3.8**; other versions may need adjustments.
+- [TranscriptionSuite](https://github.com/homelab-00/TranscriptionSuite) desktop app. Developed against **v1.3.8** and running on **v1.3.9**; other versions may need adjustments.
 - [OBS Studio](https://obsproject.com/) 30 or later.
 - A free [Hugging Face](https://huggingface.co/) account and read token, with the model terms accepted for `pyannote/speaker-diarization-3.1` and `pyannote/speaker-diarization-community-1` (the two the author accepted). This is only needed to download the diarization models.
 - Optional: classic Outlook desktop, for calendar-based file names and headers. Without it, transcripts are named from the TranscriptionSuite title or `Recovered HH-mm-ss`.
@@ -85,6 +85,10 @@ Real tokens live only in `suite.settings.psd1`, `docker\.env` or the `TS_TOKEN` 
 ```powershell
 git config core.hooksPath hooks
 ```
+
+## Network exposure
+
+In its default plain-HTTP mode, TranscriptionSuite did not check tokens on the machine this was built on: every API call, including the recordings list and exports, answered without one. Docker also publishes port 9786 on all network interfaces, so other devices on the same network could reach it. Before using this on a shared or public network, restrict port 9786 to this PC (for example with a Windows Firewall rule that blocks inbound connections to it) or enable TLS in TranscriptionSuite, which makes it require the token.
 
 ## Limitations
 

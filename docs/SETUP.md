@@ -5,7 +5,7 @@ Follow these steps once. Every command is PowerShell 5.1. Replace `<TS_TOKEN>` w
 ## 1. Install the prerequisites
 
 1. Install **Docker Desktop** and let it set up WSL2. Reboot if asked.
-2. Install the **TranscriptionSuite** desktop app (v1.3.8 was used for development). Start it once so it creates its Docker files, and confirm the dashboard opens.
+2. Install the **TranscriptionSuite** desktop app (developed on v1.3.8, running on v1.3.9). Start it once so it creates its Docker files, and confirm the dashboard opens.
 3. Install **OBS Studio** and start it once so it creates `%APPDATA%\obs-studio`. Close it.
 4. Create a Hugging Face account and a **read** token. While signed in, open the pages for `pyannote/speaker-diarization-3.1` and `pyannote/speaker-diarization-community-1` and accept their terms.
 
@@ -88,7 +88,7 @@ Get-Content "$root\logs\watcher.log" -Tail 30
 # 3. Is TranscriptionSuite healthy? (no token needed)
 Invoke-RestMethod http://localhost:9786/health
 
-# 4. Admin status (token needed; keep the token out of shared logs and screenshots)
+# 4. Admin status (send the token anyway; keep it out of shared logs and screenshots)
 Invoke-RestMethod http://localhost:9786/api/admin/status -Headers @{ Authorization = "Bearer <TS_TOKEN>" }
 
 # 5. Recordings and transcripts so far
